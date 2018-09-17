@@ -1,0 +1,21 @@
+{
+    "name": "woeler/youtubebot",
+    "description": "Posts new videos to a Slack and Discord.",
+    "type": "project",
+    "require": {
+        "madcoda/php-youtube-api": "^1.2",
+        "simonbackx/slack-php-webhook": "^1.0"
+    },
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Woeler",
+            "email": "woeler@woeler.eu"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Woeler\\YoutubeBot\\": "app/"
+        }
+    }
+}

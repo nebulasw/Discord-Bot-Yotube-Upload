@@ -1,0 +1,12 @@
+{
+  "youtubeChannelId": "",
+  "slackHookUrl": "",
+  "discordHookUrl": "",
+  "botName": "YouTube Bot",
+  "botAvatarUrl": "https://www.youtube.com/yt/about/media/images/brand-resources/icons/YouTube-icon-our_icon.png",
+  "youtubeApiKey": "",
+  "slackEnabled": true,
+  "discordEnabled": true,
+  "embedColor": "FF0000",
+  "runIntervalMinutes": 30
+}
