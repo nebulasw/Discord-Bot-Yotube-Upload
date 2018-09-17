@@ -67,7 +67,7 @@ You can configure multiple Discord hooks:
         {
           "enabled": true,
           "hookUrl": "https://discordapp.com/api/webhooks/12345/SomeNiceWebhookUrl"
-          "overrideMessage": "[CHANNEL_NAME] uploaded a new video! It's called [VIDEO_TITLE]."
+          "overrideMessage": "[CHANNEL_NAME] uploaded a new video! It\'s called [VIDEO_TITLE]."
         }
       ]
     }
