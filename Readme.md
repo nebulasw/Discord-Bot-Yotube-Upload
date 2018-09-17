@@ -116,7 +116,7 @@ You can configure multiple twitter accounts, but you will need to create an app 
     {
       "twitter": [
           {
-            "enabled": false,
+            "enabled": true,
             "consumerKey": "SomeConsumerKey",
             "consumerSecret": "SomeConsumerSecret",
             "accessToken": "SomeAccessToken",
