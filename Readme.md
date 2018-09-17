@@ -30,7 +30,7 @@ The default message sent by the system looks like this `[CHANNEL_NAME] uploaded 
 | `[VIDEO_TITLE]` | The title of the video. |
 | `[VIDEO_URL]` | The URL of the video. |
 | `[VIDEO_DESCRIPTION]` | The description of the video. |
-| `[CHANNEL_NAME` | The name of the channel that uploaded the video |
+| `[CHANNEL_NAME]` | The name of the channel that uploaded the video |
 
 #### Configuring Slack
 
@@ -54,7 +54,7 @@ You can configure multiple Slack hooks:
 | ---| --- |
 | `hookUrl` | The webhook URL obtained from Slack to which the bot should post. Read [this article](https://api.slack.com/incoming-webhooks) on how to obtain one. |
 | `enabled` | A boolean value to turn this message on or off. |
-| `overrideMessage` (optional) | An override for the default message. See here how to format this option. |
+| `overrideMessage` (optional) | An override for the default message. See [here](#overriding-the-default-message) how to format this option. |
 
 #### Configuring Discord
 
@@ -78,7 +78,7 @@ You can configure multiple Discord hooks:
 | ---| --- |
 | `hookUrl` | The webhook URL obtained from Discord to which the bot should post. Read [this article](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks) on how to obtain one. |
 | `enabled` | A boolean value to turn this message on or off. |
-| `overrideMessage` (optional) | An override for the default message. See here how to format this option. |
+| `overrideMessage` (optional) | An override for the default message. See [here](#overriding-the-default-message) how to format this option. |
 
 
 #### Configuring Telegram
@@ -104,7 +104,7 @@ You can configure multiple Telegram bots/chats:
 | `botToken` | The token of the bot that will send the message. Read [this article](https://core.telegram.org/bots#botfather) on how to obtain one. |
 | `chatId` | The ID of the chat where the message should be sent to (bot needs to be in this chat). |
 | `enabled` | A boolean value to turn this message on or off. |
-| `overrideMessage` (optional) | An override for the default message. See here how to format this option. |
+| `overrideMessage` (optional) | An override for the default message. See [here](#overriding-the-default-message) how to format this option. |
 
 
 #### Configuring Twitter
@@ -134,4 +134,4 @@ You can configure multiple twitter accounts, but you will need to create an app 
 | `accessToken` | Needed to post tweets to your account. |
 | `accessTokenSecret` | Needed to post tweets to your account. |
 | `enabled` | A boolean value to turn tweeting this message on or off. |
-| `overrideMessage` (optional) | An override for the default message. See here how to format this option. |
+| `overrideMessage` (optional) | An override for the default message. See [here](#overriding-the-default-message) how to format this option. |
