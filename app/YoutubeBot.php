@@ -120,7 +120,6 @@ class YoutubeBot
                     $this->sendToDiscord($activity);
                 }
             }
-            die();
         }
     }
 
