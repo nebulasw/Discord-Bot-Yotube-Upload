@@ -5,6 +5,8 @@ namespace Woeler\YoutubeBot;
 use DateTime;
 use DateTimeZone;
 use Madcoda\Youtube\Youtube;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Slack;
 use SlackAttachment;
 use SlackMessage;
@@ -71,6 +73,8 @@ class YoutubeBot
      */
     protected $youtube;
 
+    protected $logger;
+
     /**
      * YoutubeBot constructor.
      *
@@ -78,8 +82,10 @@ class YoutubeBot
      */
     public function __construct(array $configuration)
     {
-        $this->youtubeApiKey = $configuration['youtubeApiKey'];
-        $this->youtubeChannelId = $configuration['youtubeChannelId'];
+        $this->logger = new Logger('YouTube Bot Logger');
+        $this->logger->pushHandler(new StreamHandler('bot.log', Logger::WARNING));
+        $this->youtubeApiKey = $configuration['youtubeApiKey'] ?? '';
+        $this->youtubeChannelId = $configuration['youtubeChannelId'] ?? '';
         $this->slackHookUrl = $configuration['slackHookUrl'] ?? '';
         $this->discordHookUrl = $configuration['discordHookUrl'] ?? '';
         $this->slackEnabled = $configuration['slackEnabled'] ?? false;
@@ -101,6 +107,17 @@ class YoutubeBot
      */
     public function run()
     {
+        if (empty($this->youtubeApiKey)) {
+            $this->logger->error('You have not set a YouTube API key.');
+
+            return;
+        }
+        if (empty($this->youtubeChannelId)) {
+            $this->logger->error('You have not set a YouTube channel id.');
+
+            return;
+        }
+
         $activities = $this->youtube->getActivitiesByChannelId($this->youtubeChannelId);
 
         foreach ($activities as $activity) {
@@ -130,6 +147,12 @@ class YoutubeBot
      */
     protected function sendToDiscord($youtubeActivity)
     {
+        if (empty($this->discordHookUrl)) {
+            $this->logger->error('Posting to Discord is enabled, but you have not configured a webhook.');
+
+            return;
+        }
+
         $data = [
             'username' => $this->botName,
             'content' => $youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube!',
@@ -166,6 +189,12 @@ class YoutubeBot
      */
     protected function sendToSlack($youtubeActivity)
     {
+        if (empty($this->slackHookUrl)) {
+            $this->logger->error('Posting to Slack is enabled, but you have not configured a webhook.');
+
+            return;
+        }
+
         $message = new SlackMessage($this->slack);
         $attachement = new SlackAttachment($youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube! https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
         $attachement->setPretext($youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube!');
