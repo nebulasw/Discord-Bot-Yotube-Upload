@@ -40,7 +40,7 @@ class YoutubeVideo
 
     public function __construct($youtubeActivity)
     {
-        $this->title = $youtubeActivity->snippet->channelTitle;
+        $this->title = $youtubeActivity->snippet->title;
         $this->url = 'https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId;
         $this->description = self::makeShortDescription($youtubeActivity->snippet->description);
         $this->channelName = $youtubeActivity->snippet->channelTitle;
