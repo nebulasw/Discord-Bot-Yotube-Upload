@@ -21,6 +21,6 @@ After configuring the bot set up a cronjob to the file `run.php`.
 | `botAvatarUrl` | A link to the avatar image you want the bot to use. Use png or jpg for the best results. | Youtube icon image (png) |
 | `youtubeApiKey` | Your API key to the YouTube API. | `null` |
 | `embedColor` | A hexadecimal color code to give your messages a personal touch. | `FF0000` |
-| `runIntervalMinutes` | The interval of the cronjob. Make sure this equals the cronjob interval to prevent douplicate posts or missing posts. | `30` |
+| `runIntervalMinutes` | The interval of the cronjob. Make sure this equals the cronjob interval to prevent duplicate posts or missing posts. | `30` |
 | `slackEnabled` | A boolean value to turn Slack messages on or off. | `false` |
 | `discordEnabled` | A boolean value to turn Discord messages on or off. | `false` |
