@@ -27,7 +27,7 @@ abstract class AbstractMessagingSystem
             return $video->getChannelName() . ' uploaded a new video! ' . $video->getUrl();
         }
 
-        $overrideMessage = str_replace(['[VIDEO_TITLE]', '[VIDEO_URL]', '[CHANNEL_NAME]', '[VIDEO_DESCRIPTION]'], [[[$video->getTitle(), $video->getUrl()], $video->getChannelName()], $video->getDescription()], $overrideMessage);
+        $overrideMessage = str_replace(['[VIDEO_TITLE]', '[VIDEO_URL]', '[CHANNEL_NAME]', '[VIDEO_DESCRIPTION]'], [$video->getTitle(), $video->getUrl(), $video->getChannelName(), $video->getDescription()], $overrideMessage);
 
         return $overrideMessage;
     }
