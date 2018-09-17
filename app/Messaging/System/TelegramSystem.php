@@ -6,6 +6,8 @@ use Woeler\YoutubeBot\YoutubeVideo;
 
 class TelegramSystem extends AbstractMessagingSystem
 {
+    const SYSTEM_IDENTIFIER = 'telegram';
+
     public function send(YoutubeVideo $video, array $configuration): bool
     {
         $params = [

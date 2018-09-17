@@ -30,6 +30,17 @@
           "chatId": ""
         }
       ]
+    },
+    {
+      "twitter": [
+        {
+          "enabled": false,
+          "consumerKey": "",
+          "consumerSecret": "",
+          "accessToken": "",
+          "accessTokenSecret": ""
+        }
+      ]
     }
   ]
 }

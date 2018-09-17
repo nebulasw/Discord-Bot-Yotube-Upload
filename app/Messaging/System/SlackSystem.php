@@ -10,6 +10,8 @@ use Woeler\YoutubeBot\YoutubeVideo;
 
 class SlackSystem extends AbstractMessagingSystem
 {
+    const SYSTEM_IDENTIFIER = 'slack';
+
     public function send(YoutubeVideo $video, array $configuration): bool
     {
         if (empty($configuration['hookUrl'])) {

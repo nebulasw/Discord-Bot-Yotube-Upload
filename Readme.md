@@ -88,3 +88,31 @@ You can configure multiple Telegram bots/chats:
 | `botToken` | The token of the bot that will send the message. Read [this article](https://core.telegram.org/bots#botfather) on how to obtain one. |
 | `chatId` | The ID of the chat where the message should be sent to (bot needs to be in this chat). |
 | `enabled` | A boolean value to turn this message on or off. |
+
+#### Configuring Twitter
+
+You can configure multiple twitter accounts, but you will need to create an app via [the Twitter developer portal](https://apps.twitter.com) in order to obtain your keys. When you have done that retrieve your own access token and also place it in the config.
+
+```json
+"systems": [
+    {
+      "twitter": [
+          {
+            "enabled": false,
+            "consumerKey": "SomeConsumerKey",
+            "consumerSecret": "SomeConsumerSecret",
+            "accessToken": "SomeAccessToken",
+            "accessTokenSecret": "SomeAccessTokenSecret"
+          }
+        ]
+    }
+  ]
+```
+
+| Configuration value | Purpose |
+| ---| --- |
+| `consumerKey` | Needed to post tweets to your account. |
+| `consumerSecret` | Needed to post tweets to your account. |
+| `accessToken` | Needed to post tweets to your account. |
+| `accessTokenSecret` | Needed to post tweets to your account. |
+| `enabled` | A boolean value to turn tweeting this message on or off. |

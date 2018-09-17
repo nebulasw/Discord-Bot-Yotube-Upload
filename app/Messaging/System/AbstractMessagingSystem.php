@@ -8,6 +8,8 @@ use Woeler\YoutubeBot\YoutubeVideo;
 
 abstract class AbstractMessagingSystem
 {
+    const SYSTEM_IDENTIFIER = '';
+
     /**
      * @var Logger
      */

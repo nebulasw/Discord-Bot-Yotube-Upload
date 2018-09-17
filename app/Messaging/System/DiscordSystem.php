@@ -7,6 +7,8 @@ use Woeler\YoutubeBot\YoutubeVideo;
 
 class DiscordSystem extends AbstractMessagingSystem
 {
+    const SYSTEM_IDENTIFIER = 'discord';
+
     public function send(YoutubeVideo $video, array $configuration): bool
     {
         if (empty($configuration['hookUrl'])) {

@@ -9,7 +9,8 @@
         "ext-curl": "*",
         "madcoda/php-youtube-api": "^1.2",
         "simonbackx/slack-php-webhook": "^1.0",
-        "monolog/monolog": "^1.23"
+        "monolog/monolog": "^1.23",
+        "dg/twitter-php": "^3.7"
     },
     "license": "GPL-3.0-or-later",
     "authors": [

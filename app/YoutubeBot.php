@@ -9,6 +9,7 @@ use Woeler\YoutubeBot\Messaging\System\AbstractMessagingSystem;
 use Woeler\YoutubeBot\Messaging\System\DiscordSystem;
 use Woeler\YoutubeBot\Messaging\System\SlackSystem;
 use Woeler\YoutubeBot\Messaging\System\TelegramSystem;
+use Woeler\YoutubeBot\Messaging\System\TwitterSystem;
 
 class YoutubeBot
 {
@@ -84,14 +85,17 @@ class YoutubeBot
                     foreach ($systemArray as $systemIdentifier => $system) {
                         foreach ($system as $configuration) {
                             if ($configuration['enabled']) {
-                                if ('slack' === $systemIdentifier) {
+                                if (SlackSystem::SYSTEM_IDENTIFIER === $systemIdentifier) {
                                     $this->postVideo(new SlackSystem(), $video, $configuration);
                                 }
-                                if ('discord' === $systemIdentifier) {
+                                if (DiscordSystem::SYSTEM_IDENTIFIER === $systemIdentifier) {
                                     $this->postVideo(new DiscordSystem(), $video, $configuration);
                                 }
-                                if ('telegram' === $systemIdentifier) {
+                                if (TelegramSystem::SYSTEM_IDENTIFIER === $systemIdentifier) {
                                     $this->postVideo(new TelegramSystem(), $video, $configuration);
+                                }
+                                if (TwitterSystem::SYSTEM_IDENTIFIER === $systemIdentifier) {
+                                    $this->postVideo(new TwitterSystem(), $video, $configuration);
                                 }
                             }
                         }
