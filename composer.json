@@ -2,7 +2,11 @@
     "name": "woeler/youtubebot",
     "description": "Posts new videos to a Slack and Discord.",
     "type": "project",
+    "homepage": "https://github.com/Woeler/youtube-bot",
     "require": {
+        "php": ">=7.0.0,",
+        "ext-json": "*",
+        "ext-curl": "*",
         "madcoda/php-youtube-api": "^1.2",
         "simonbackx/slack-php-webhook": "^1.0"
     },
