@@ -27,7 +27,7 @@ class SlackSystem extends AbstractMessagingSystem
         $message = new SlackMessage($slack);
 
         $attachement = new SlackAttachment($video->getChannelName() . ' uploaded a new video to YouTube! ' . $video->getUrl());
-        $attachement->setPretext($video->getChannelName() . ' uploaded a new video to YouTube!');
+        $attachement->setPretext($this->buildMessage($video, $configuration['overrideMessage'] ?? null));
         $attachement->setTitle($video->getTitle(), $video->getUrl());
         $attachement->setImage($video->getImageUrl());
         $attachement->setColor('#' . Configuration::getConfigurationValue('embedColor'));

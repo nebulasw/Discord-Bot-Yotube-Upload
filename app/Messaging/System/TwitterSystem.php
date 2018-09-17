@@ -21,7 +21,7 @@ class TwitterSystem extends AbstractMessagingSystem
         }
 
         $twitter = new Twitter($configuration['consumerKey'], $configuration['consumerSecret'], $configuration['accessToken'], $configuration['accessTokenSecret']);
-        $message = $video->getChannelName() . ' posted a new video! ' . $video->getTitle() . PHP_EOL . $video->getUrl();
+        $message = $this->buildMessage($video, $configuration['overrideMessage'] ?? null);
         $twitter->send($message);
 
         return true;

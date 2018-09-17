@@ -12,7 +12,7 @@ class TelegramSystem extends AbstractMessagingSystem
     {
         $params = [
             'chat_id' => $configuration['chatId'],
-            'text' => $video->getChannelName() . ' uploaded a new video to YouTube! ' . PHP_EOL . $video->getUrl(),
+            'text' => $this->buildMessage($video, $configuration['overrideMessage'] ?? null),
         ];
 
         $ch = curl_init('https://api.telegram.org/bot' . $configuration['botToken'] . '/sendMessage');

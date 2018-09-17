@@ -21,5 +21,16 @@ abstract class AbstractMessagingSystem
         $this->logger->pushHandler(new StreamHandler('bot.log', Logger::WARNING));
     }
 
+    protected function buildMessage(YoutubeVideo $video, string $overrideMessage = null): string
+    {
+        if (null === $overrideMessage) {
+            return $video->getChannelName() . ' uploaded a new video! ' . $video->getUrl();
+        }
+
+        $overrideMessage = str_replace(['[VIDEO_TITLE]', '[VIDEO_URL]', '[CHANNEL_NAME]', '[VIDEO_DESCRIPTION]'], [[[$video->getTitle(), $video->getUrl()], $video->getChannelName()], $video->getDescription()], $overrideMessage);
+
+        return $overrideMessage;
+    }
+
     abstract public function send(YoutubeVideo $video, array $configuration): bool;
 }

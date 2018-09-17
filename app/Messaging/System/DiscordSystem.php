@@ -19,7 +19,7 @@ class DiscordSystem extends AbstractMessagingSystem
 
         $data = [
             'username' => Configuration::getConfigurationValue('botName'),
-            'content' => $video->getChannelName() . ' uploaded a new video to YouTube!',
+            'content' => $this->buildMessage($video, $configuration['overrideMessage'] ?? null),
             'avatar_url' => Configuration::getConfigurationValue('botAvatarUrl'),
             'embeds' => [[
                 'title' => $video->getTitle(),
