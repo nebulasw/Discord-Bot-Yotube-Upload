@@ -1,4 +1,4 @@
-# Youtube Slack/Discord webhook bot
+# Youtube Social Bot
 
 This is a simple bot that posts new uploads of a specified channel to Slack and/or Discord via a webhook.
 
