@@ -73,6 +73,9 @@ class YoutubeBot
      */
     protected $youtube;
 
+    /**
+     * @var Logger
+     */
     protected $logger;
 
     /**
@@ -145,15 +148,94 @@ class YoutubeBot
      *
      * @param $youtubeActivity
      */
-    protected function sendToDiscord($youtubeActivity)
+    protected function sendToDiscord($youtubeActivity): bool
     {
         if (empty($this->discordHookUrl)) {
             $this->logger->error('Posting to Discord is enabled, but you have not configured a webhook.');
 
-            return;
+            return false;
         }
 
-        $data = [
+        $httpcode = $this->runCurl(json_encode($this->buildDiscordMessage($youtubeActivity)));
+
+        if (204 !== $httpcode) {
+            $this->logger->warning(
+                'Unexpected status code returned by Discord.',
+                [
+                    'expected' => 204,
+                    'actual' => $httpcode,
+                    'videoId' => $youtubeActivity->contentDetails->upload->videoId,
+                ]
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Send a message to Slack
+     *
+     * @param $youtubeActivity
+     */
+    protected function sendToSlack($youtubeActivity): bool
+    {
+        if (empty($this->slackHookUrl)) {
+            $this->logger->error('Posting to Slack is enabled, but you have not configured a webhook.');
+
+            return false;
+        }
+
+        $success = $this->buildSlackMessage($youtubeActivity)->send();
+
+        if (!$success) {
+            $this->logger->warning('Posting to Slack was not successful.', ['videoId' => $youtubeActivity->contentDetails->upload->videoId]);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Shorten the description on newline
+     */
+    protected function makeShortDescription(string $longDescription): string
+    {
+        $description = explode(PHP_EOL, $longDescription, 2);
+
+        return $description[0] ?? $longDescription;
+    }
+
+    /**
+     * Builds a Slack message
+     *
+     * @param $youtubeActivity
+     */
+    protected function buildSlackMessage($youtubeActivity): SlackMessage
+    {
+        $message = new SlackMessage($this->slack);
+        $attachement = new SlackAttachment($youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube! https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
+        $attachement->setPretext($youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube!');
+        $attachement->setTitle($youtubeActivity->snippet->title, 'https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
+        $attachement->setImage($youtubeActivity->snippet->thumbnails->maxres->url);
+        $attachement->setColor('#' . $this->colorHex);
+        $attachement->setText($this->makeShortDescription($youtubeActivity->snippet->description));
+        $attachement->addButton('View on YouTube', 'https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
+        $message->addAttachment($attachement);
+
+        return $message;
+    }
+
+    /**
+     * Builds a Discord embeds array
+     *
+     * @param $youtubeActivity
+     */
+    protected function buildDiscordMessage($youtubeActivity): array
+    {
+        return [
             'username' => $this->botName,
             'content' => $youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube!',
             'avatar_url' => $this->botAvatarUrl,
@@ -173,47 +255,25 @@ class YoutubeBot
                 ],
             ]],
         ];
+    }
 
+    /**
+     * Runs a CURL POST request
+     *
+     * @param null|mixed $data
+     */
+    protected function runCurl($data = null): int
+    {
         $ch = curl_init($this->discordHookUrl);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        if (null !== $data) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-    }
 
-    /**
-     * Send a message to Slack
-     *
-     * @param $youtubeActivity
-     */
-    protected function sendToSlack($youtubeActivity)
-    {
-        if (empty($this->slackHookUrl)) {
-            $this->logger->error('Posting to Slack is enabled, but you have not configured a webhook.');
-
-            return;
-        }
-
-        $message = new SlackMessage($this->slack);
-        $attachement = new SlackAttachment($youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube! https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
-        $attachement->setPretext($youtubeActivity->snippet->channelTitle . ' uploaded a new video to YouTube!');
-        $attachement->setTitle($youtubeActivity->snippet->title, 'https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
-        $attachement->setImage($youtubeActivity->snippet->thumbnails->maxres->url);
-        $attachement->setColor('#' . $this->colorHex);
-        $attachement->setText($this->makeShortDescription($youtubeActivity->snippet->description));
-        $attachement->addButton('View on YouTube', 'https://www.youtube.com/watch?v=' . $youtubeActivity->contentDetails->upload->videoId);
-        $message->addAttachment($attachement);
-        $message->send();
-    }
-
-    /**
-     * Shorten the description on newline
-     */
-    protected function makeShortDescription(string $longDescription): string
-    {
-        $description = explode(PHP_EOL, $longDescription, 2);
-
-        return $description[0];
+        return $httpcode;
     }
 }
